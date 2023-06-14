@@ -1,0 +1,27 @@
+{
+    "name": "LAIT Storyblok DevOps",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate",
+        "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+        "deploy": "git checkout -b release && npm run build && git add .nuxt && git commit -m 'Release' && eb deploy && git checkout master && git branch -D release"
+    },
+    "dependencies": {
+        "@nuxtjs/dotenv": "^1.4.1",
+        "@storyblok/nuxt-auth": "^1.4.0",
+        "dotenv": "^9.0.2",
+        "nuxt": "^2.15.6"
+    },
+    "devDependencies": {
+        "@nuxtjs/eslint-config": "^6.0.0",
+        "@nuxtjs/eslint-module": "^3.0.2",
+        "@nuxtjs/tailwindcss": "^3.4.2",
+        "babel-eslint": "^10.0.1",
+        "eslint": "^7.26.0",
+        "eslint-plugin-nuxt": ">=2.0.0"
+    }
+}

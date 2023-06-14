@@ -8,7 +8,6 @@ onMounted(() => {
 
 <template>
   <div class="error">
-    <UnauthorizedIcon />
     <h3 class="error__title">Unauthorized</h3>
     <h4 class="error_subtitle">Failed to authenticate</h4>
   </div>

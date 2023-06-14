@@ -1,21 +1,37 @@
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    node: true
-  },
-  parserOptions: {
-    parser: "babel-eslint"
-  },
-  extends: ["@nuxtjs", "plugin:nuxt/recommended"],
-  // add your custom rules here
-  rules: {
-    // allow v-bind without use of a state variable
-    // https://tailwindcss.com/docs/controlling-file-size/#writing-purgeable-html
-    "vue/valid-v-bind": "off",
-    "vue/comment-directive": 0,
-    quotes: ["off"],
-    semi: ["off"],
-    "space-before-function-paren": ["off"]
-  }
+	root: true,
+	env: {
+		node: true,
+	},
+	extends: [
+		"eslint:recommended",
+		"plugin:vue/vue3-recommended",
+		"@vue/prettier",
+		"plugin:@typescript-eslint/recommended",
+	],
+	parser: "vue-eslint-parser",
+	parserOptions: {
+		ecmaVersion: 2020,
+		parser: {
+			ts: "@typescript-eslint/parser",
+			"<template>": "espree",
+		},
+	},
+	plugins: ["@typescript-eslint"],
+	rules: {
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+		"no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+		"vue/multi-word-component-names": "off",
+		"@typescript-eslint/no-unused-vars": ["error"],
+		"vue/no-v-html": 0,
+		"no-undef": "off",
+		"no-unused-vars": "off",
+		"prettier/prettier": [
+			"error",
+			{
+				endOfLine: "auto",
+			},
+		],
+	},
 };

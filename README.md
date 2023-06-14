@@ -1,69 +1,65 @@
-<p align="center">
-  <h1 align="center">Storyblok Stage Kanban App</h1>
-</p>
+# Nuxt 3 Custom Application Starter
 
-![App preview image](./screenshoot.png)
+## Local Development
 
-> Kanban app to change the Workflow Stage from a story
+### Install
 
-## Development
-
-Firstly, to create an app on Storyblok, you need to enter to the [our partner program](https://www.storyblok.com/partners).
-
-### Installation
-
-``` bash
-# clone this repository
-$ git clone https://github.com/storyblok/storyblok-workflow-app.git
-
-# Enter the directory
-$ cd storyblok-workflow-app
-
-# install dependencies
-$ yarn install # npm install
-```
-
-### Configure the the Oauth2 module
-
-To run the project in development, firstly, you need to configure our `nuxt-auth` module ([check out the documentation](https://github.com/storyblok/nuxt-auth)) with your oauth credentials (these credentials are available in the app settings area of Storyblok).
-
-Rename the file `.env-example` to `.env` and fill out the variables.
-
-~~~text
-CONFIDENTIAL_CLIENT_ID="Id from Storyblok App"
-CONFIDENTIAL_CLIENT_SECRET="Secret from Storyblok App"
-CONFIDENTIAL_CLIENT_REDIRECT_URI=https://YOUR_ID.ngrok.io/auth/callback
-~~~
-
-### Setup an SSL tunnel
-
-We recommend you to use [ngrok](https://ngrok.com/) to create a tunel to your development environment. In you terminal, execute:
+ Make sure to install the dependencies:
 
 ```bash
-$ ngrok http 3000 # the 3000 port is the Nuxt default
+# yarn
+yarn install
 ```
+### Environment Variables
 
-Use the urls you get from ngrok to fill out the following fields in the app settings area in Storyblok:
+First, copy the `.env.example` file and rename to `.env`.
 
-* `Url to your app` field: `https://YOUR_ID.ngrok.io/auth/connect/storyblok`
-* `Oauth2 callback url` field: `https://YOUR_ID.ngrok.io/auth/callback` (this URL must be include in `redirect_uri` property in `nuxt-auth` module)
 
-### Check the App in Development
+### Secure Tunnel
 
-After all, start the Nuxt dev server:
+1. Create a tunnel for you application using [ngrok](https://ngrok.com/). To create a specific domain tunnel as listed below, you need to set up an account.
+
+2. Adjust `BASE_URL`
+   inside the `.env` file to your tunnel URL, using HTTPS. For example, https://myngroksubdomain.ngrok.io.
 
 ```bash
-$ yarn dev # npm run dev
+ngrok http --hostname=myngroksubdomain.ngrok.io 3000 # define your hostname domain and use the port your application is running on
 ```
 
-Now click the "Open" button in the app settings area of your app in Storyblok to install the app on a space.
+### Storyblok Custom Application
+Before running the project you need to set up a connection between Storyblok and your local or production code.
 
-### Deploy
+> **_NOTE:_** In order to create an application you need to have access to the [Partner Portal](https://app.storyblok.com/#/partner/home).
+For creating a new custom application you can either follow [this article](https://www.storyblok.com/docs/plugins/custom-application#getting-started) or the steps below.
+1. Navigate to `Partner Portal -> Extensions`.
+2. Create new Sidebar Application.
+3. Open the application settings.
+4. Navigate to the _OAuth 2.0 and Pages tab_.
+5. Set up Production/Preview mode.
+    1. `Index to your page` should point to your ngrok URL (e.g.: `https://myngroksubdomain.ngrok.io`).
+    2. `Redirection endpoint` points to the callback endpoint (e.g.: `https://myngroksubdomain.ngrok.io/api/authenticate/callback`).
+6. Retrieve Client ID and Client Secret and set them inside the `.env` file as `CLIENT_ID` and `CLIENT_SECRET`.
 
-This app is like any other Nuxt app, so, the deploy is the same ([check the Nuxt documentation about this](https://nuxtjs.org/guide/commands#production-deployment)). **The only thing that you must be concern, is the URLs configurations**.
+### Run
+Run your local development by executing:
 
----
+```bash 
+# yarn
+yarn dev
+```
 
-<p align="center">
-  <h5 align="center">Powered by <a href="https://www.storyblok.com/" title="link to the Storyblok website">Storyblok</a></h5>
-</p>
+## Production
+See previous sections from Local Development, to see how to set up external dependencies.
+
+1. Build minified bundle by running:
+```bash
+# yarn
+yarn build
+```
+2. Set the environment variables.
+
+3. Afterwards start a Nuxt production server:
+```bash
+# yarn
+yarn start
+```

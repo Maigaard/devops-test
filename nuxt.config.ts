@@ -7,10 +7,8 @@ export default defineNuxtConfig({
 	css: [resolve("./assets/main.css")],
 	// ssr:false,
 	runtimeConfig: {
-		public: {
-			CLIENT_ID: process.env.CLIENT_ID,
-			CLIENT_SECRET: process.env.CLIENT_SECRET,
-			BASE_URL: process.env.BASE_URL,
-		},
+		CLIENT_ID: process.env.CLIENT_ID,
+		CLIENT_SECRET: process.env.CLIENT_SECRET,
+		BASE_URL: process.env.BASE_URL,
 	},
 });

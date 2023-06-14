@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { navigateTo, useFetch, useRoute } from "#app";
 import { initOauthFlowUrl } from "~/src/endpointPrefix";
-import { Build } from "~/src/Story";
+import { Build } from "~/src/types";
 
 const route = useRoute();
 const { spaceId, userId } = route.query;
 if (!spaceId || !userId) {
 	navigateTo(initOauthFlowUrl);
-} else {
-	console.log(spaceId, userId);
 }
+
 let currentBuild: Ref<Build | undefined> = ref(undefined),
 	lastBuild: Ref<Build | undefined> = ref(undefined),
 	loadingContext = ref(true);
@@ -21,28 +20,28 @@ if (!process.server) {
 			action: "tool-changed",
 			tool: "lait@azure-devops-tool",
 			event: "heightChange",
-			height: 400,
+			height: 250,
 		},
 		"https://app.storyblok.com"
 	);
 }
 
-const entries = await useFetch(() => `/api/stories`, {
+const { data } = await useFetch(() => `/api/devOpsSettings`, {
 	params: {
 		spaceId,
 		userId,
 	},
 });
+if (!data || !data.value) {
+	throw createError({
+		statusCode: 500,
+		statusMessage: "failed to fetch config",
+	});
+}
 
-const config = {
-	accessToken: entries.data.value!.find((de) => de.name === "AccessToken")?.value,
-	buildId: entries.data.value!.find((de) => de.name === "BuildId")?.value,
-	projectName: entries.data.value!.find((de) => de.name === "ProjectName")?.value,
-};
-
-const endpoint = ref(`https://dev.azure.com/laitaps/${config.projectName}/_apis/build/builds/?api-version=7.0`);
+const endpoint = ref(`https://dev.azure.com/laitaps/${data.value.projectName}/_apis/build/builds/?api-version=7.0`);
 const headers = ref({
-	Authorization: `Basic ${config.accessToken}`,
+	Authorization: `Basic ${data.value.accessToken}`,
 	"Content-Type": "application/json",
 });
 
@@ -85,7 +84,7 @@ const startBuild = async () => {
 				method: "POST",
 				body: JSON.stringify({
 					definition: {
-						id: config.buildId,
+						id: data.value!.buildId,
 					},
 					sourceBranch: `refs/heads/${branch.value}`,
 					templateParameters: {},
@@ -104,7 +103,7 @@ const startBuild = async () => {
 
 <template>
 	<div>
-		<div v-if="config" class="mb-6 px-6">
+		<div v-if="data" class="mb-6 px-6">
 			<form @submit.prevent="startBuild">
 				<fieldset>
 					<label for="branch">Build miljø: </label>

@@ -29,6 +29,7 @@ const getBaseUrl = (url: string): string => {
 
 export const authHandlerParams = () : AuthHandlerParams => {
 	const { CLIENT_ID, CLIENT_SECRET, BASE_URL } = useRuntimeConfig();
+	console.log(CLIENT_ID, "test", process.env.CLIENT_ID);
 	return {
 		clientId: getClientId(CLIENT_ID),
 		clientSecret: getClientSecret(CLIENT_SECRET),

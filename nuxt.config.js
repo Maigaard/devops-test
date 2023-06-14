@@ -25,7 +25,6 @@ export default {
         id: process.env.CONFIDENTIAL_CLIENT_ID,
         secret: process.env.CONFIDENTIAL_CLIENT_SECRET,
         redirect_uri: process.env.CONFIDENTIAL_CLIENT_REDIRECT_URI
-        // return_url: '/auth'
       }
     ]
   ],

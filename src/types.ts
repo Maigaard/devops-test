@@ -16,6 +16,7 @@ export type Config = {
 	accessToken: string | undefined;
 	buildId: string | undefined;
 	projectName: string | undefined;
+	environemt: string | undefined;
 };
 
 export const isDatasourceEntries = (data: unknown): data is DatesourceEntry[] => Array.isArray(data);

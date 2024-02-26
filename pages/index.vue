@@ -107,10 +107,10 @@ const startBuild = async () => {
 			<form @submit.prevent="startBuild">
 				<fieldset>
 					<label for="branch">Build miljø: </label>
-					<select v-model="branch" id="branch" v-if="data.value.environment === 'dev'">
+					<select v-model="branch" id="branch" v-if="data.value.environment === 'dev' || !data.value.environment">
 						<option value="develop">Test</option>
 					</select>
-					<select v-model="branch" id="branch" v-else-if="data.value.environment === 'prod'">
+					<select v-model="branch" id="branch" v-if="data.value.environment === 'prod' || !data.value.environment">
 						<option value="master">Production</option>
 					</select>
 					<button type="submit" style="border: 1px black solid">Start build</button>
